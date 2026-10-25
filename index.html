@@ -6,322 +6,107 @@
   <title>Golden MYG · Collares y bolsos</title>
   <meta name="description" content="Collares y bolsos seleccionados uno a uno. Haz tu pedido directo por WhatsApp." />
   <meta name="theme-color" content="#110D13" />
-  <link rel="icon" href="logo.png" />
+  <link rel="icon" href="assets/logo-96.png" />
+  <link rel="apple-touch-icon" href="assets/logo-192.png" />
+
+  <!-- Abrir las conexiones antes de necesitarlas (datos, fotos, librería y letras) -->
+  <link rel="preconnect" href="https://khvaqdzxotqfwqjzzbem.supabase.co" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #110D13; --bg-2: #0C090E; --surface: #1A151D; --border: #2D2631; --border-strong: #3E3543;
-      --text: #F4EEE8; --text-2: #C9BFC6; --muted: #958A98;
-      --gold: #D8B866; --gold-ink: #1C1508;
-      --display: 'Cormorant Garamond', Georgia, serif; --body: 'Manrope', system-ui, sans-serif;
-      --radius: 14px; --wrap: 1080px;
-      color-scheme: dark;
-    }
-    * { box-sizing: border-box; }
-    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/1.5 var(--body); }
-    body.locked { overflow: hidden; }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; }
-    button, select, input { font: inherit; color: inherit; }
-    button { cursor: pointer; }
-    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 16px; }
-    @media (min-width: 900px) { .wrap { padding: 0 24px; } }
-    .icon { width: 20px; height: 20px; flex: none; }
-    [hidden] { display: none !important; }
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap" />
 
-    /* Botones */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 44px; padding: 0 22px; border-radius: 999px; border: 1px solid var(--border-strong);
-      background: none; font-weight: 600; font-size: 15px; text-decoration: none; white-space: nowrap;
-    }
-    .btn-gold { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
-    .btn-sm { min-height: 36px; padding: 0 14px; font-size: 13px; }
-    .btn-sm .icon { width: 16px; height: 16px; }
-    .round {
-      width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
-      border: 1px solid var(--border-strong); background: none; padding: 0; text-decoration: none;
-    }
-
-    /* Encabezado */
-    .top { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
-    .top-row { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; height: 64px; }
-    .brand { display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
-    .brand img { width: 34px; height: 34px; border-radius: 50%; }
-    .brand span { font-family: var(--display); font-weight: 600; font-size: 25px; letter-spacing: .01em; }
-    .menu-btn { border: 0; background: none; padding: 0; width: 44px; height: 44px; display: grid; place-items: center; }
-    .top .round.wa { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
-    .nav, .top-actions { display: none; }
-    @media (min-width: 900px) {
-      .top-row { grid-template-columns: auto 1fr auto; height: 72px; }
-      .menu-btn, .top .round.wa { display: none; }
-      .brand { justify-content: flex-start; }
-      .nav { display: flex; justify-content: center; gap: 28px; }
-      .nav a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--text-2); }
-      .nav a:hover { color: var(--text); }
-      .top-actions { display: flex; align-items: center; gap: 10px; }
-      .top-actions .round { width: 40px; height: 40px; }
-    }
-
-    /* Menú del celular */
-    .drawer { position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.6); }
-    .drawer-panel {
-      position: absolute; inset: 0 auto 0 0; width: min(300px, 82vw); background: var(--surface);
-      padding: 20px; display: flex; flex-direction: column; gap: 4px;
-    }
-    .drawer-panel a, .drawer-panel button.link {
-      text-align: left; border: 0; background: none; padding: 14px 4px; font-size: 18px;
-      font-family: var(--display); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--border);
-    }
-    .drawer-panel .close-row { display: flex; justify-content: flex-end; margin-bottom: 8px; }
-
-    /* Portada (solo computador, como en el diseño) */
-    .hero { display: none; }
-    @media (min-width: 900px) {
-      .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; padding-top: 72px; padding-bottom: 64px; border-bottom: 1px solid var(--border); }
-      .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .18em; color: var(--gold); margin: 0 0 18px; }
-      .hero h1 { font-family: var(--display); font-weight: 500; font-size: 64px; line-height: 1.02; margin: 0; }
-      .hero h1 em { color: var(--gold); }
-      .hero p.lead { color: var(--text-2); max-width: 40ch; margin: 24px 0 30px; font-size: 16px; line-height: 1.65; }
-      .hero-actions { display: flex; gap: 12px; }
-      .hero-art { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: end; }
-      .arch { aspect-ratio: 3 / 4; object-fit: cover; width: 100%; border-radius: 999px 999px 14px 14px; background: var(--surface); }
-      .hero-side { display: grid; gap: 18px; align-self: stretch; grid-template-rows: 1fr auto; }
-      .hero-side img { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: var(--radius); background: var(--surface); }
-      .stat { border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius); padding: 18px; }
-      .stat b { display: block; font-family: var(--display); font-weight: 600; font-size: 34px; line-height: 1; color: var(--gold); }
-      .stat span { font-size: 13px; color: var(--text-2); }
-    }
-
-    /* Catálogo */
-    .catalog { padding-top: 18px; padding-bottom: 120px; }
-    @media (min-width: 900px) { .catalog { padding-top: 56px; padding-bottom: 72px; } }
-    .search-box { position: relative; }
-    .search-box .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-2); }
-    .search {
-      width: 100%; height: 50px; border-radius: 999px; border: 1px solid var(--border-strong);
-      background: var(--bg-2); padding: 0 18px 0 50px; font-size: 16px;
-    }
-    .search::placeholder { color: var(--muted); }
-    .chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-top: 14px; }
-    .chips::-webkit-scrollbar { display: none; }
-    .chip {
-      flex: none; height: 42px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--border-strong);
-      background: none; font-weight: 500; font-size: 15px;
-    }
-    .chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); font-weight: 600; }
-    .cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 24px 0 18px; }
-    .cat-head h2 { font-family: var(--display); font-weight: 500; font-size: 38px; line-height: 1; margin: 0; }
-    .count { color: var(--text-2); font-size: 14px; }
-    .sort { display: none; }
-    @media (min-width: 900px) {
-      .cat-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
-      .cat-top .search-box { width: 340px; }
-      .cat-head { display: block; margin: 0; }
-      .cat-head h2 { font-size: 46px; }
-      .count { display: block; margin-top: 6px; }
-      .filters { display: flex; justify-content: space-between; align-items: center; margin: 26px 0 30px; }
-      .chips { margin: 0; }
-      .sort { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); }
-      .sort select { background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 8px; height: 40px; padding: 0 12px; }
-    }
-    .mobile-only { display: block; }
-    .chips.mobile-only { display: flex; }
-    .desktop-only { display: none; }
-    @media (min-width: 900px) { .mobile-only { display: none; } .desktop-only { display: block; } .chips.mobile-only { display: none; } .filters.desktop-only { display: flex; } }
-
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
-    @media (min-width: 640px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media (min-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 22px; } }
-    .card { position: relative; display: flex; flex-direction: column; }
-    .card-link { flex: 1; }
-    .card-link { display: block; text-decoration: none; }
-    .card .photo {
-      width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); background: var(--surface);
-    }
-    @media (min-width: 900px) { .card .photo { aspect-ratio: 4 / 5.1; } }
-    .noimg { display: grid; place-items: center; color: var(--muted); font-size: 13px; }
-    .badge {
-      position: absolute; top: 12px; left: 12px; background: rgba(17, 13, 19, .85); color: var(--gold);
-      font-size: 11px; font-weight: 700; letter-spacing: .12em; padding: 4px 10px; border-radius: 999px;
-    }
-    .card .cat { display: none; }
-    .card h3 { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.15; margin: 12px 0 0; }
-    .card-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
-    .price { color: var(--gold); font-weight: 700; font-size: 17px; }
-    .card .btn-sm { display: none; }
-    @media (min-width: 900px) {
-      .card .cat { display: block; font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--muted); margin-top: 16px; text-transform: uppercase; }
-      .card h3 { margin-top: 4px; }
-      .card-foot { margin-top: 14px; }
-      .card .btn-sm { display: inline-flex; }
-    }
-    .more { display: flex; justify-content: center; margin-top: 40px; }
-    .empty { grid-column: 1 / -1; text-align: center; padding: 64px 16px; color: var(--text-2); }
-    .empty h3 { font-family: var(--display); font-weight: 500; font-size: 28px; color: var(--text); margin: 0 0 6px; }
-
-    /* Botón fijo del celular */
-    .sticky-cta {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-      background: linear-gradient(to top, var(--bg) 65%, transparent);
-    }
-    .sticky-cta .btn { width: 100%; min-height: 56px; font-size: 17px; }
-    @media (min-width: 900px) { .sticky-cta { display: none; } }
-
-    /* Pie de página */
-    footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 48px 0 calc(110px + env(safe-area-inset-bottom)); }
-    @media (min-width: 900px) { footer { padding-bottom: 32px; } }
-    .foot-grid { display: grid; gap: 32px; }
-    @media (min-width: 900px) { .foot-grid { grid-template-columns: 2fr 1fr 1fr; } }
-    .foot-grid .brand { justify-content: flex-start; }
-    .foot-grid p { color: var(--text-2); font-size: 14px; max-width: 34ch; }
-    .foot-grid h4 { font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--muted); margin: 6px 0 12px; }
-    .foot-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14px; }
-    .foot-grid ul a { text-decoration: none; }
-    .foot-grid .gold a { color: var(--gold); }
-    .copy { color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 40px; padding-top: 20px; }
-
-    /* Detalle de producto */
-    .detail { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow-y: auto; overscroll-behavior: contain; }
-    .d-gallery { position: relative; }
-    .d-slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 0 0 28px 28px; background: var(--surface); }
-    .d-slides::-webkit-scrollbar { display: none; }
-    .d-slides img { flex: 0 0 100%; width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; scroll-snap-align: start; }
-    .d-float { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 16px; right: 16px; display: flex; justify-content: space-between; pointer-events: none; }
-    .d-float .round { pointer-events: auto; background: rgba(17, 13, 19, .8); border: 0; }
-    .d-slides { touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
-    .d-nav {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
-      width: 40px; height: 40px; background: rgba(17, 13, 19, .75); border: 0; color: #fff;
-    }
-    .d-nav:disabled { opacity: 0; pointer-events: none; }
-    .d-prev { left: 12px; }
-    .d-next { right: 12px; }
-    @media (min-width: 900px) { .d-nav { width: 46px; height: 46px; } .d-prev { left: 16px; } .d-next { right: 16px; } }
-    .d-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
-    .d-dots button { width: 22px; height: 22px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
-    .d-dots button::before { content: ''; width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.55); transition: width .2s; }
-    .d-dots button.on::before { width: 18px; background: #fff; }
-    .d-dots { gap: 0; }
-    .detail-inner { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
-    .d-body { padding: 26px 20px 0; }
-    .d-related { padding: 0 20px; }
-    .d-cat { font-size: 12px; font-weight: 600; letter-spacing: .2em; color: var(--text-2); text-transform: uppercase; margin: 0; }
-    .d-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-top: 10px; }
-    .d-title h2 { font-family: var(--display); font-weight: 500; font-size: 38px; line-height: 1.05; margin: 0; }
-    .d-title .price { font-size: 22px; padding-top: 8px; }
-    .d-desc { color: var(--text-2); line-height: 1.65; margin: 16px 0 0; white-space: pre-line; max-width: 62ch; }
-    .d-specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
-    .d-specs div { border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius); padding: 14px 16px; }
-    .d-specs dt { font-size: 11px; font-weight: 600; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
-    .d-specs dd { margin: 4px 0 0; font-weight: 600; }
-    .d-related h3 { font-family: var(--display); font-weight: 500; font-size: 26px; margin: 34px 0 14px; }
-    .d-rel-row { display: grid; grid-auto-flow: column; grid-auto-columns: 42%; gap: 12px; overflow-x: auto; scrollbar-width: none; }
-    .d-rel-row::-webkit-scrollbar { display: none; }
-    .d-rel-row .card h3 { font-size: 17px; margin-top: 8px; }
-    .d-rel-row .price { font-size: 14px; }
-    .d-rel-row .card-foot { margin-top: 4px; }
-    .d-rel-row .card .cat, .d-rel-row .card .btn-sm { display: none; }
-    .d-cta { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--border); }
-    .d-cta .btn { width: 100%; min-height: 56px; font-size: 17px; }
-    @media (min-width: 900px) {
-      .detail-inner { max-width: var(--wrap); margin: 0 auto; padding: 32px 24px 56px; }
-      .d-main { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-      .d-slides { border-radius: var(--radius); }
-      .d-gallery { position: sticky; top: 32px; }
-      .d-float { top: 16px; }
-      .d-body { padding: 8px 0 0; }
-      .d-title h2 { font-size: 46px; }
-      .d-rel-row { grid-auto-columns: 30%; }
-      .d-cta { position: static; padding: 0; border: 0; margin-top: 28px; background: none; }
-      .d-related { padding: 0; margin-top: 24px; }
-      .d-rel-row { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    }
-
-    .status { color: var(--text-2); }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  </style>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/catalog.css" />
+  <link rel="stylesheet" href="css/detail.css" />
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.5 8.5 0 1 1 21 11.5z"/></symbol>
-    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
-    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></symbol>
-    <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
-    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-    <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></symbol>
-    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
-  </svg>
-
-  <header class="top">
-    <div class="wrap top-row">
-      <button class="menu-btn" id="menu-open" aria-label="Abrir menú"><svg class="icon"><use href="#i-menu"/></svg></button>
-      <a class="brand" href="#" aria-label="Golden MYG, inicio"><img src="logo.png" alt="" width="34" height="34" /><span>Golden MYG</span></a>
-      <nav class="nav" aria-label="Categorías">
-        <a href="#catalogo" data-cat="Collar">Collares</a>
-        <a href="#catalogo" data-cat="Bolso">Bolsos</a>
-        <a href="#catalogo" data-cat="Otro">Otros</a>
+  <header class="header">
+    <div class="wrap header__row">
+      <button class="header__menu" id="drawer-open" type="button" aria-label="Abrir menú">
+        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#menu" /></svg>
+      </button>
+      <a class="brand" href="#" aria-label="Golden MYG, inicio">
+        <img src="assets/logo-96.png" alt="" width="34" height="34" />
+        <span>Golden MYG</span>
+      </a>
+      <nav class="header__nav" aria-label="Categorías">
+        <a href="#catalogo" data-category="Collar">Collares</a>
+        <a href="#catalogo" data-category="Bolso">Bolsos</a>
+        <a href="#catalogo" data-category="Otro">Otros</a>
       </nav>
-      <div class="top-actions">
-        <button class="round" id="search-jump" aria-label="Buscar"><svg class="icon" style="width:17px;height:17px"><use href="#i-search"/></svg></button>
-        <a class="btn btn-gold btn-sm wa-link" data-wa="general" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg>Pedir por WhatsApp</a>
+      <div class="header__actions">
+        <button class="btn-round" id="search-jump" type="button" aria-label="Buscar">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="assets/icons.svg#search" /></svg>
+        </button>
+        <a class="btn btn--gold btn--sm" data-whatsapp target="_blank" rel="noopener">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#chat" /></svg>Pedir por WhatsApp
+        </a>
       </div>
-      <a class="round wa wa-link" data-wa="general" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg class="icon"><use href="#i-chat"/></svg></a>
+      <a class="btn-round btn-round--gold header__wa" data-whatsapp target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#chat" /></svg>
+      </a>
     </div>
   </header>
 
   <div class="drawer" id="drawer" hidden>
-    <div class="drawer-panel" role="dialog" aria-label="Menú">
-      <div class="close-row"><button class="round" id="menu-close" aria-label="Cerrar menú"><svg class="icon"><use href="#i-close"/></svg></button></div>
-      <button class="link" data-cat="Todos">Todo el catálogo</button>
-      <button class="link" data-cat="Collar">Collares</button>
-      <button class="link" data-cat="Bolso">Bolsos</button>
-      <button class="link" data-cat="Otro">Otros</button>
-      <a class="ig-link" target="_blank" rel="noopener" hidden>Instagram</a>
-    </div>
+    <nav class="drawer__panel" aria-label="Menú">
+      <div class="drawer__close">
+        <button class="btn-round" id="drawer-close" type="button" aria-label="Cerrar menú">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#close" /></svg>
+        </button>
+      </div>
+      <button class="drawer__link" type="button" data-category="Todos">Todo el catálogo</button>
+      <button class="drawer__link" type="button" data-category="Collar">Collares</button>
+      <button class="drawer__link" type="button" data-category="Bolso">Bolsos</button>
+      <button class="drawer__link" type="button" data-category="Otro">Otros</button>
+      <a class="drawer__link" data-instagram target="_blank" rel="noopener" hidden>Instagram</a>
+    </nav>
   </div>
 
   <main>
     <section class="wrap hero" aria-label="Presentación">
       <div>
-        <p class="eyebrow">COLECCIÓN GOLDEN MYG</p>
-        <h1>Detalles dorados <em>para brillar</em> todos los días</h1>
-        <p class="lead">Collares y bolsos seleccionados uno a uno. Elige tus favoritos en el catálogo y haz tu pedido directo por WhatsApp.</p>
-        <div class="hero-actions">
-          <a class="btn btn-gold" href="#catalogo">Ver catálogo <svg class="icon" style="width:17px;height:17px"><use href="#i-arrow"/></svg></a>
-          <a class="btn" href="#catalogo" data-cat="Bolso">Ver bolsos</a>
+        <p class="hero__eyebrow">COLECCIÓN GOLDEN MYG</p>
+        <h1 class="hero__title">Detalles dorados <em>para brillar</em> todos los días</h1>
+        <p class="hero__lead">Collares y bolsos seleccionados uno a uno. Elige tus favoritos en el catálogo y haz tu pedido directo por WhatsApp.</p>
+        <div class="hero__actions">
+          <a class="btn btn--gold" href="#catalogo">
+            Ver catálogo <svg class="icon icon--sm" aria-hidden="true"><use href="assets/icons.svg#arrow" /></svg>
+          </a>
+          <a class="btn" href="#catalogo" data-category="Bolso">Ver bolsos</a>
         </div>
       </div>
-      <div class="hero-art">
-        <img class="arch" id="hero-a" alt="" />
-        <div class="hero-side">
-          <img id="hero-b" alt="" />
+      <div class="hero__art">
+        <img class="hero__arch" id="hero-photo-main" alt="" fetchpriority="high" />
+        <div class="hero__side">
+          <img id="hero-photo-side" alt="" />
           <div class="stat"><b id="hero-count">—</b><span>productos en el catálogo</span></div>
         </div>
       </div>
     </section>
 
     <section class="wrap catalog" id="catalogo" aria-label="Catálogo">
-      <div class="search-box mobile-only">
-        <svg class="icon"><use href="#i-search"/></svg>
-        <input class="search" id="search-m" type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre" />
-      </div>
-      <div class="chips mobile-only" id="chips-m"></div>
+      <label class="search only-mobile">
+        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search" /></svg>
+        <input class="search__input" data-search type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre" />
+      </label>
+      <div class="chips only-mobile" data-chips></div>
 
-      <div class="cat-top">
-        <div class="cat-head"><h2>Catálogo</h2><span class="count" id="count">Cargando…</span></div>
-        <div class="search-box desktop-only">
-          <svg class="icon" style="width:17px;height:17px;left:16px"><use href="#i-search"/></svg>
-          <input class="search" id="search-d" type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre" style="height:44px;font-size:14px;padding-left:44px" />
+      <div class="catalog__top">
+        <div class="catalog__head">
+          <h2 class="catalog__title">Catálogo</h2>
+          <span class="catalog__count" id="catalog-count">Cargando…</span>
         </div>
+        <label class="search search--compact only-desktop">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="assets/icons.svg#search" /></svg>
+          <input class="search__input" id="search-desktop" data-search type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre" />
+        </label>
       </div>
-      <div class="filters desktop-only">
-        <div class="chips" id="chips-d"></div>
+
+      <div class="catalog__filters only-desktop">
+        <div class="chips" data-chips></div>
         <label class="sort">Ordenar por
           <select id="sort">
             <option value="new">Más recientes</option>
@@ -332,354 +117,97 @@
         </label>
       </div>
 
-      <div class="grid" id="grid" aria-live="polite"></div>
-      <div class="more" id="more" hidden><button class="btn" id="more-btn">Ver más productos</button></div>
+      <div class="grid" id="catalog-grid" aria-live="polite"></div>
+      <div class="catalog__more" id="catalog-more" hidden>
+        <button class="btn" id="catalog-more-btn" type="button">Ver más productos</button>
+      </div>
     </section>
   </main>
 
-  <div class="sticky-cta" id="sticky-cta">
-    <a class="btn btn-gold wa-link" data-wa="general" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg>Pedir por WhatsApp</a>
+  <div class="sticky-cta">
+    <a class="btn btn--gold btn--block" data-whatsapp target="_blank" rel="noopener">
+      <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#chat" /></svg>Pedir por WhatsApp
+    </a>
   </div>
 
-  <footer>
+  <footer class="footer">
     <div class="wrap">
-      <div class="foot-grid">
+      <div class="footer__grid">
         <div>
-          <a class="brand" href="#"><img src="logo.png" alt="" width="34" height="34" /><span>Golden MYG</span></a>
-          <p>Escríbenos con el nombre del producto y te confirmamos disponibilidad y envío.</p>
+          <a class="brand" href="#">
+            <img src="assets/logo-96.png" alt="" width="34" height="34" loading="lazy" />
+            <span>Golden MYG</span>
+          </a>
+          <p class="footer__text">Escríbenos con el nombre del producto y te confirmamos disponibilidad y envío.</p>
         </div>
         <div>
-          <h4>PEDIDOS</h4>
-          <ul class="gold">
-            <li><a class="wa-link" data-wa="general" target="_blank" rel="noopener" id="foot-wa">WhatsApp</a></li>
-            <li><a class="ig-link" target="_blank" rel="noopener" id="foot-ig" hidden>Instagram</a></li>
+          <h4 class="footer__title label">Pedidos</h4>
+          <ul class="footer__list footer__list--gold">
+            <li><a data-whatsapp data-whatsapp-number target="_blank" rel="noopener">WhatsApp</a></li>
+            <li><a data-instagram target="_blank" rel="noopener" hidden>Instagram</a></li>
           </ul>
         </div>
         <div>
-          <h4>CATÁLOGO</h4>
-          <ul>
-            <li><a href="#catalogo" data-cat="Collar">Collares</a></li>
-            <li><a href="#catalogo" data-cat="Bolso">Bolsos</a></li>
-            <li><a href="#catalogo" data-cat="Otro">Otros</a></li>
+          <h4 class="footer__title label">Catálogo</h4>
+          <ul class="footer__list">
+            <li><a href="#catalogo" data-category="Collar">Collares</a></li>
+            <li><a href="#catalogo" data-category="Bolso">Bolsos</a></li>
+            <li><a href="#catalogo" data-category="Otro">Otros</a></li>
           </ul>
         </div>
       </div>
-      <p class="copy">© <span id="year"></span> Golden MYG</p>
+      <p class="footer__copy">© <span id="year"></span> Golden MYG</p>
     </div>
   </footer>
 
   <section class="detail" id="detail" hidden aria-label="Detalle del producto">
-    <div class="detail-inner">
-      <div class="d-main">
-      <div class="d-gallery">
-        <div class="d-slides" id="d-slides"></div>
-        <button class="round d-nav d-prev" id="d-prev" aria-label="Foto anterior" hidden><svg class="icon"><use href="#i-back"/></svg></button>
-        <button class="round d-nav d-next" id="d-next" aria-label="Foto siguiente" hidden><svg class="icon"><use href="#i-next"/></svg></button>
-        <div class="d-dots" id="d-dots"></div>
-        <div class="d-float">
-          <button class="round" id="d-back" aria-label="Volver al catálogo"><svg class="icon"><use href="#i-back"/></svg></button>
-          <button class="round" id="d-share" aria-label="Compartir"><svg class="icon"><use href="#i-share"/></svg></button>
+    <div class="detail__inner">
+      <div class="detail__main">
+        <div class="gallery">
+          <div class="gallery__slides" id="gallery-slides"></div>
+          <button class="btn-round btn-round--overlay gallery__arrow gallery__arrow--prev" id="gallery-prev" type="button" aria-label="Foto anterior" hidden>
+            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#prev" /></svg>
+          </button>
+          <button class="btn-round btn-round--overlay gallery__arrow gallery__arrow--next" id="gallery-next" type="button" aria-label="Foto siguiente" hidden>
+            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#next" /></svg>
+          </button>
+          <div class="gallery__dots" id="gallery-dots"></div>
+          <div class="gallery__toolbar">
+            <button class="btn-round btn-round--overlay" id="detail-back" type="button" aria-label="Volver al catálogo">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#prev" /></svg>
+            </button>
+            <button class="btn-round btn-round--overlay" id="detail-share" type="button" aria-label="Compartir">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#share" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="detail__body">
+          <p class="detail__category label" id="detail-category"></p>
+          <div class="detail__title">
+            <h2 id="detail-name"></h2>
+            <span class="price" id="detail-price"></span>
+          </div>
+          <p class="detail__desc" id="detail-desc"></p>
+          <dl class="specs" id="detail-specs"></dl>
+          <div class="detail__cta">
+            <a class="btn btn--gold btn--block" id="detail-whatsapp" data-whatsapp target="_blank" rel="noopener">
+              <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#chat" /></svg><span id="detail-whatsapp-text"></span>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="d-body">
-        <p class="d-cat" id="d-cat"></p>
-        <div class="d-title"><h2 id="d-name"></h2><span class="price" id="d-price"></span></div>
-        <p class="d-desc" id="d-desc"></p>
-        <dl class="d-specs" id="d-specs"></dl>
-        <div class="d-cta"><a class="btn btn-gold wa-link" id="d-wa" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg><span id="d-wa-text"></span></a></div>
-      </div>
-      </div>
-      <div class="d-related" id="d-related">
-        <h3>También te puede gustar</h3>
-        <div class="d-rel-row" id="d-rel-row"></div>
-      </div>
+
+      <section class="related" id="related" aria-labelledby="related-title">
+        <h3 class="related__title" id="related-title">También te puede gustar</h3>
+        <div class="related__row" id="related-row"></div>
+      </section>
     </div>
   </section>
 
+  <!-- Librería de Supabase (global `supabase`), con verificación de integridad -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"
     integrity="sha384-dl/4LkSyQ4uEucc48NM6VDZLAjLLq9yMzZ5JLXumBq7Ld33XBof73hseOqPhO89+" crossorigin="anonymous"></script>
-  <script>
-    // ---- Datos de contacto (cámbialos aquí) ----
-    // Número con código de país, solo dígitos. Ej: 573001234567
-    const WHATSAPP_NUMBER = '573246041664';
-    // Usuario de Instagram sin @. Ej: goldenmyg
-    const INSTAGRAM_USER = '';
-
-    // Clave PÚBLICA (anon): en Supabase solo permite leer el catálogo.
-    const SUPABASE_URL = 'https://khvaqdzxotqfwqjzzbem.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtodmFxZHp4b3RxZndxanp6YmVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5NDgxMjUsImV4cCI6MjEwODUyNDEyNX0.srgQrVOw84ACH2ZLZXlKbJRQNsnUcUdZKF8z_EQnVBo';
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
-
-    const CATEGORIES = [['Todos', 'Todo'], ['Collar', 'Collares'], ['Bolso', 'Bolsos'], ['Otro', 'Otros']];
-    const SINGULAR = { Collar: 'collar', Bolso: 'bolso', Otro: 'producto' };
-    const NEW_DAYS = 14;
-    const PAGE = 12;
-
-    let products = [];
-    let category = 'Todos';
-    let query = '';
-    let sort = 'new';
-    let shown = PAGE;
-    let current = null;
-
-    const $ = (id) => document.getElementById(id);
-    const el = (tag, props = {}, children = []) => {
-      const node = Object.assign(document.createElement(tag), props);
-      node.append(...children);
-      return node;
-    };
-    const svg = (id, cls = 'icon') => {
-      const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      s.setAttribute('class', cls);
-      const u = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-      u.setAttribute('href', '#' + id);
-      s.append(u);
-      return s;
-    };
-
-    // Igual que src/utils/format.ts de la app: 20000 → $20.000
-    function formatPrice(raw) {
-      const text = String(raw).trim().replace(/^\$\s*/, '');
-      const digits = text.replace(/\./g, '');
-      return /^\d+$/.test(digits) ? '$' + digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '$' + text;
-    }
-    const priceNumber = (p) => Number(String(p.price || '').replace(/\D/g, '')) || Infinity;
-    // "NUEVO": solo los 4 más recientes, y solo si se agregaron en los últimos NEW_DAYS días.
-    let newIds = new Set();
-    const isNew = (p) => newIds.has(p.id);
-    const productUrl = (p) => location.origin + location.pathname + '#producto/' + p.id;
-
-    function waHref(p) {
-      const text = p
-        ? `Hola, quiero pedir: ${p.name}${p.price ? ' (' + formatPrice(p.price) + ')' : ''}\n${productUrl(p)}`
-        : 'Hola, quiero hacer un pedido del catálogo de Golden MYG.';
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    }
-
-    // Sin número configurado, los botones de WhatsApp se ocultan.
-    function setupContact() {
-      document.querySelectorAll('.wa-link[data-wa="general"]').forEach((a) => {
-        if (WHATSAPP_NUMBER) a.href = waHref(null); else a.hidden = true;
-      });
-      if (!WHATSAPP_NUMBER) { $('sticky-cta').hidden = true; $('d-wa').hidden = true; }
-      $('foot-wa').textContent = WHATSAPP_NUMBER ? 'WhatsApp +' + WHATSAPP_NUMBER : '';
-      document.querySelectorAll('.ig-link').forEach((a) => {
-        a.hidden = !INSTAGRAM_USER;
-        a.href = 'https://instagram.com/' + INSTAGRAM_USER;
-        a.textContent = 'Instagram @' + INSTAGRAM_USER;
-      });
-    }
-
-    function filtered() {
-      const q = query.trim().toLowerCase();
-      const list = products.filter((p) =>
-        (category === 'Todos' || p.category === category) &&
-        (!q || p.name.toLowerCase().includes(q) || (p.code || '').toLowerCase().includes(q)));
-      const by = {
-        new: (a, b) => b.created_at - a.created_at,
-        'price-asc': (a, b) => priceNumber(a) - priceNumber(b),
-        'price-desc': (a, b) => (priceNumber(b) === Infinity ? -1 : priceNumber(b)) - (priceNumber(a) === Infinity ? -1 : priceNumber(a)),
-        name: (a, b) => a.name.localeCompare(b.name, 'es'),
-      }[sort];
-      return list.sort(by);
-    }
-
-    function card(p) {
-      const photo = p.photos?.[0]
-        ? el('img', { className: 'photo', src: p.photos[0], alt: p.name, loading: 'lazy' })
-        : el('div', { className: 'photo noimg', textContent: 'Sin foto' });
-      const link = el('a', { className: 'card-link', href: '#producto/' + p.id }, [
-        photo,
-        el('p', { className: 'cat', textContent: p.category }),
-        el('h3', { textContent: p.name }),
-      ]);
-      const foot = el('div', { className: 'card-foot' }, [
-        el('span', { className: 'price', textContent: p.price ? formatPrice(p.price) : '' }),
-      ]);
-      if (WHATSAPP_NUMBER) {
-        const order = el('a', { className: 'btn btn-sm', href: waHref(p), target: '_blank', rel: 'noopener' }, [svg('i-chat'), 'Pedir']);
-        order.setAttribute('aria-label', 'Pedir ' + p.name + ' por WhatsApp');
-        foot.append(order);
-      }
-      const children = [link, foot];
-      if (isNew(p)) children.unshift(el('span', { className: 'badge', textContent: 'NUEVO' }));
-      return el('article', { className: 'card' }, children);
-    }
-
-    function renderChips() {
-      for (const id of ['chips-m', 'chips-d']) {
-        $(id).replaceChildren(...CATEGORIES.map(([value, label]) => {
-          const b = el('button', { className: 'chip', textContent: label });
-          b.setAttribute('aria-pressed', String(value === category));
-          b.onclick = () => setCategory(value);
-          return b;
-        }));
-      }
-    }
-
-    function setCategory(value) {
-      category = value;
-      shown = PAGE;
-      renderChips();
-      renderGrid();
-    }
-
-    function renderGrid() {
-      const list = filtered();
-      const total = products.length;
-      $('count').textContent = category === 'Todos' && !query.trim()
-        ? `${total} ${total === 1 ? 'producto' : 'productos'}`
-        : `${list.length} de ${total}`;
-      if (list.length === 0) {
-        $('grid').replaceChildren(el('div', { className: 'empty' }, [
-          el('h3', { textContent: total ? 'Nada por aquí' : 'Pronto habrá productos' }),
-          el('p', { textContent: total ? 'Prueba con otra categoría o borra la búsqueda.' : 'Vuelve en un rato.' }),
-        ]));
-      } else {
-        $('grid').replaceChildren(...list.slice(0, shown).map(card));
-      }
-      $('more').hidden = list.length <= shown;
-    }
-
-    function renderHero() {
-      const withPhotos = products.filter((p) => p.photos?.length);
-      if (withPhotos[0]) { $('hero-a').src = withPhotos[0].photos[0]; $('hero-a').alt = withPhotos[0].name; }
-      if (withPhotos[1]) { $('hero-b').src = withPhotos[1].photos[0]; $('hero-b').alt = withPhotos[1].name; }
-      $('hero-count').textContent = products.length;
-    }
-
-    // ---- Detalle (#producto/<id>, para poder compartir el enlace) ----
-    function openDetail(p) {
-      current = p;
-      const photos = p.photos || [];
-      $('d-slides').replaceChildren(...photos.map((src, i) => el('img', { src, alt: `${p.name}, foto ${i + 1}` })));
-      $('d-dots').replaceChildren(...(photos.length > 1 ? photos.map((_, i) => {
-        const dot = el('button', { className: i ? '' : 'on' });
-        dot.setAttribute('aria-label', `Ver foto ${i + 1} de ${photos.length}`);
-        dot.onclick = () => goToPhoto(i);
-        return dot;
-      }) : []));
-      $('d-prev').hidden = $('d-next').hidden = photos.length < 2;
-      $('d-slides').scrollLeft = 0;
-      updateGalleryNav();
-      $('d-cat').textContent = p.category;
-      $('d-name').textContent = p.name;
-      $('d-price').textContent = p.price ? formatPrice(p.price) : '';
-      $('d-desc').textContent = p.description || '';
-      const specs = [['Material', p.material], ['Medidas', p.measurements], ['Colores', (p.colors || []).join(', ')], ['Código', p.code]]
-        .filter(([, v]) => v);
-      $('d-specs').replaceChildren(...specs.map(([k, v]) => el('div', {}, [el('dt', { textContent: k }), el('dd', { textContent: v })])));
-      $('d-wa').href = waHref(p);
-      $('d-wa-text').textContent = `Pedir este ${SINGULAR[p.category] || 'producto'} por WhatsApp`;
-      const related = products.filter((r) => r.id !== p.id && r.category === p.category).slice(0, 8);
-      $('d-related').hidden = related.length === 0;
-      $('d-rel-row').replaceChildren(...related.map(card));
-      $('detail').hidden = false;
-      $('detail').scrollTop = 0;
-      document.body.classList.add('locked');
-      document.title = `${p.name} · Golden MYG`;
-    }
-
-    function closeDetail() {
-      current = null;
-      $('detail').hidden = true;
-      document.body.classList.remove('locked');
-      document.title = 'Golden MYG · Collares y bolsos';
-    }
-
-    function route() {
-      const m = location.hash.match(/^#producto\/(.+)$/);
-      const p = m && products.find((x) => x.id === decodeURIComponent(m[1]));
-      if (p) openDetail(p); else if (!$('detail').hidden) closeDetail();
-    }
-
-    $('d-back').onclick = () => {
-      if (history.state?.fromList) history.back();
-      else { history.replaceState(null, '', location.pathname + '#catalogo'); closeDetail(); }
-    };
-    $('d-share').onclick = async () => {
-      if (!current) return;
-      const data = { title: current.name, text: `${current.name} en Golden MYG`, url: productUrl(current) };
-      if (navigator.share) { try { await navigator.share(data); } catch {} }
-      else { await navigator.clipboard?.writeText(data.url); $('d-share').setAttribute('aria-label', 'Enlace copiado'); }
-    };
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest('a[href^="#producto/"]');
-      if (a) { e.preventDefault(); history.pushState({ fromList: true }, '', a.getAttribute('href')); route(); }
-      const cat = e.target.closest('[data-cat]');
-      if (cat) { setCategory(cat.dataset.cat); closeDrawer(); if (!$('detail').hidden) closeDetail(); }
-    });
-    window.addEventListener('popstate', route);
-    window.addEventListener('hashchange', route);
-    // ---- Galería del detalle: deslizar, flechas, puntos y teclado ----
-    const photoIndex = () => Math.round($('d-slides').scrollLeft / $('d-slides').clientWidth);
-    function goToPhoto(i) {
-      const s = $('d-slides');
-      const last = s.children.length - 1;
-      const target = Math.max(0, Math.min(last, i));
-      const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-      s.scrollTo({ left: target * s.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
-    }
-    function updateGalleryNav() {
-      const i = photoIndex();
-      const last = $('d-slides').children.length - 1;
-      [...$('d-dots').children].forEach((d, k) => d.classList.toggle('on', k === i));
-      $('d-prev').disabled = i <= 0;
-      $('d-next').disabled = i >= last;
-    }
-    $('d-prev').onclick = () => goToPhoto(photoIndex() - 1);
-    $('d-next').onclick = () => goToPhoto(photoIndex() + 1);
-    $('d-slides').addEventListener('scroll', updateGalleryNav, { passive: true });
-    document.addEventListener('keydown', (e) => {
-      if ($('detail').hidden || e.target.closest('input, select')) return;
-      if (e.key === 'ArrowLeft') goToPhoto(photoIndex() - 1);
-      if (e.key === 'ArrowRight') goToPhoto(photoIndex() + 1);
-    });
-
-    // ---- Menú, búsqueda, orden ----
-    const closeDrawer = () => { $('drawer').hidden = true; };
-    $('menu-open').onclick = () => { $('drawer').hidden = false; };
-    $('menu-close').onclick = closeDrawer;
-    $('drawer').addEventListener('click', (e) => { if (e.target === $('drawer')) closeDrawer(); });
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Escape') return;
-      if (!$('drawer').hidden) closeDrawer(); else if (!$('detail').hidden) $('d-back').click();
-    });
-    for (const id of ['search-m', 'search-d']) {
-      $(id).addEventListener('input', (e) => {
-        query = e.target.value;
-        $(id === 'search-m' ? 'search-d' : 'search-m').value = query;
-        shown = PAGE;
-        renderGrid();
-      });
-    }
-    $('search-jump').onclick = () => { $('catalogo').scrollIntoView(); $('search-d').focus({ preventScroll: true }); };
-    $('sort').onchange = (e) => { sort = e.target.value; renderGrid(); };
-    $('more-btn').onclick = () => { shown += PAGE; renderGrid(); };
-    $('year').textContent = new Date().getFullYear();
-
-    async function load() {
-      const { data, error } = await db.from('productos').select('*').order('created_at', { ascending: false });
-      if (error) {
-        $('count').textContent = 'No se pudo cargar. Revisa tu conexión y recarga.';
-        return;
-      }
-      products = data;
-      newIds = new Set(products.slice(0, 4)
-        .filter((p) => Date.now() - Number(p.created_at) < NEW_DAYS * 864e5).map((p) => p.id));
-      renderHero();
-      renderGrid();
-      if (current) { const fresh = products.find((p) => p.id === current.id); if (fresh) openDetail(fresh); else closeDetail(); }
-      else route();
-    }
-
-    setupContact();
-    renderChips();
-    load();
-    // Cuando alguien edita desde la app, la página se actualiza sola.
-    db.channel('catalogo-web')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'productos' }, load)
-      .subscribe();
-  </script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>

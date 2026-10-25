@@ -1,0 +1,86 @@
+/* Estructura general de la página: encabezado, menú del celular, portada, botón fijo y pie. */
+
+/* Encabezado */
+.header { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
+.header__row { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; height: 64px; }
+.header__menu { border: 0; background: none; padding: 0; width: 44px; height: 44px; display: grid; place-items: center; }
+.header__nav, .header__actions { display: none; }
+
+.brand { display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+.brand img { width: 34px; height: 34px; border-radius: 50%; }
+.brand span { font-family: var(--display); font-weight: 600; font-size: 25px; letter-spacing: .01em; }
+
+@media (min-width: 900px) {
+  .header__row { grid-template-columns: auto 1fr auto; height: 72px; }
+  .header__menu, .header__wa { display: none; }
+  .header .brand { justify-content: flex-start; }
+  .header__nav { display: flex; justify-content: center; gap: 28px; }
+  .header__nav a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--text-2); }
+  .header__nav a:hover { color: var(--text); }
+  .header__actions { display: flex; align-items: center; gap: 10px; }
+  .header__actions .btn-round { width: 40px; height: 40px; }
+}
+
+/* Menú lateral del celular */
+.drawer { position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, .6); }
+.drawer__panel {
+  position: absolute; inset: 0 auto 0 0; width: min(300px, 82vw); background: var(--surface);
+  padding: 20px; display: flex; flex-direction: column; gap: 4px;
+}
+.drawer__close { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.drawer__link {
+  text-align: left; border: 0; background: none; padding: 14px 4px; font-size: 18px;
+  font-family: var(--display); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--border);
+}
+
+/* Portada (solo computador, como en el diseño) */
+.hero { display: none; }
+@media (min-width: 900px) {
+  .hero {
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center;
+    padding-top: 72px; padding-bottom: 64px; border-bottom: 1px solid var(--border);
+  }
+  .hero__eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .18em; color: var(--gold); margin: 0 0 18px; }
+  .hero__title { font-family: var(--display); font-weight: 500; font-size: 64px; line-height: 1.02; margin: 0; }
+  .hero__title em { color: var(--gold); }
+  .hero__lead { color: var(--text-2); max-width: 40ch; margin: 24px 0 30px; line-height: 1.65; }
+  .hero__actions { display: flex; gap: 12px; }
+  .hero__art { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: end; }
+  .hero__arch {
+    width: 100%; aspect-ratio: 3 / 4; object-fit: cover; background: var(--surface);
+    border-radius: 999px 999px 14px 14px;
+  }
+  .hero__side { display: grid; gap: 18px; align-self: stretch; grid-template-rows: 1fr auto; }
+  .hero__side img {
+    width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: var(--radius); background: var(--surface);
+  }
+  .stat { border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius); padding: 18px; }
+  .stat b { display: block; font-family: var(--display); font-weight: 600; font-size: 34px; line-height: 1; color: var(--gold); }
+  .stat span { font-size: 13px; color: var(--text-2); }
+}
+
+/* Botón fijo de WhatsApp (celular) */
+.sticky-cta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--bg) 65%, transparent);
+}
+@media (min-width: 900px) { .sticky-cta { display: none; } }
+
+/* Pie de página */
+.footer {
+  background: var(--bg-2); border-top: 1px solid var(--border);
+  padding: 48px 0 calc(110px + env(safe-area-inset-bottom));
+}
+.footer__grid { display: grid; gap: 32px; }
+.footer .brand { justify-content: flex-start; }
+.footer__text { color: var(--text-2); font-size: 14px; max-width: 34ch; }
+.footer__title { margin: 6px 0 12px; }
+.footer__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14px; }
+.footer__list a { text-decoration: none; }
+.footer__list--gold a { color: var(--gold); }
+.footer__copy { color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 40px; padding-top: 20px; }
+@media (min-width: 900px) {
+  .footer { padding-bottom: 32px; }
+  .footer__grid { grid-template-columns: 2fr 1fr 1fr; }
+}

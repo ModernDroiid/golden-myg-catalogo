@@ -1,0 +1,75 @@
+/* Detalle de producto: pantalla completa en celular, dos columnas en computador. */
+
+.detail { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow-y: auto; overscroll-behavior: contain; }
+.detail__inner { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+
+/* Galería de fotos */
+.gallery { position: relative; }
+.gallery__slides {
+  display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  touch-action: pan-x pan-y; border-radius: 0 0 28px 28px; background: var(--surface);
+}
+.gallery__slides::-webkit-scrollbar { display: none; }
+.gallery__slides img { flex: 0 0 100%; width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; scroll-snap-align: start; }
+
+.gallery__toolbar {
+  position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 16px; right: 16px;
+  display: flex; justify-content: space-between; pointer-events: none;
+}
+.gallery__toolbar .btn-round { pointer-events: auto; }
+
+.gallery__arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 40px; height: 40px; }
+.gallery__arrow:disabled { opacity: 0; pointer-events: none; }
+.gallery__arrow--prev { left: 12px; }
+.gallery__arrow--next { right: 12px; }
+
+.gallery__dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; }
+.gallery__dots button { width: 22px; height: 22px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
+.gallery__dots button::before {
+  content: ''; width: 6px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .55); transition: width .2s;
+}
+.gallery__dots button[aria-current="true"]::before { width: 18px; background: #fff; }
+
+/* Información */
+.detail__body { padding: 26px 20px 0; }
+.detail__category { font-size: 12px; letter-spacing: .2em; color: var(--text-2); margin: 0; }
+.detail__title { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-top: 10px; }
+.detail__title h2 { font-family: var(--display); font-weight: 500; font-size: 38px; line-height: 1.05; margin: 0; }
+.detail__title .price { font-size: 22px; padding-top: 8px; }
+.detail__desc { color: var(--text-2); line-height: 1.65; margin: 16px 0 0; white-space: pre-line; max-width: 62ch; }
+
+.specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 22px 0 0; }
+.specs div { border: 1px solid var(--border); background: var(--surface); border-radius: var(--radius); padding: 14px 16px; }
+.specs dd { margin: 4px 0 0; font-weight: 600; }
+
+.detail__cta {
+  position: fixed; z-index: 5; left: 0; right: 0; bottom: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--border);
+}
+
+/* También te puede gustar */
+.related { padding: 0 20px; }
+.related__title { font-family: var(--display); font-weight: 500; font-size: 26px; margin: 34px 0 14px; }
+.related__row { display: grid; grid-auto-flow: column; grid-auto-columns: 42%; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+.related__row::-webkit-scrollbar { display: none; }
+.related__row .card__name { font-size: 17px; margin-top: 8px; }
+.related__row .price { font-size: 14px; }
+.related__row .card__foot { margin-top: 4px; }
+.related__row .card__category, .related__row .card__order { display: none; }
+
+@media (min-width: 900px) {
+  .detail__inner { max-width: var(--wrap); margin: 0 auto; padding: 32px 24px 56px; }
+  /* La foto queda fija al bajar, pero solo dentro de .detail__main (no tapa "También te puede gustar"). */
+  .detail__main { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .gallery { position: sticky; top: 32px; }
+  .gallery__slides { border-radius: var(--radius); }
+  .gallery__toolbar { top: 16px; }
+  .gallery__arrow { width: 46px; height: 46px; }
+  .gallery__arrow--prev { left: 16px; }
+  .gallery__arrow--next { right: 16px; }
+  .detail__body { padding: 8px 0 0; }
+  .detail__title h2 { font-size: 46px; }
+  .detail__cta { position: static; padding: 0; border: 0; margin-top: 28px; background: none; }
+  .related { padding: 0; margin-top: 24px; }
+  .related__row { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

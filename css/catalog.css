@@ -1,0 +1,81 @@
+/* Catálogo: buscador, filtros, orden, cuadrícula y tarjetas de producto. */
+
+.catalog { padding-top: 18px; padding-bottom: 120px; }
+@media (min-width: 900px) { .catalog { padding-top: 56px; padding-bottom: 72px; } }
+
+/* Buscador */
+.search { position: relative; }
+.search .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-2); }
+.search__input {
+  width: 100%; height: 50px; border-radius: 999px; border: 1px solid var(--border-strong);
+  background: var(--bg-2); padding: 0 18px 0 50px; font-size: 16px;
+}
+.search__input::placeholder { color: var(--muted); }
+.search--compact .icon { left: 16px; }
+.search--compact .search__input { height: 44px; font-size: 14px; padding-left: 44px; }
+
+/* Filtros por categoría */
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-top: 14px; }
+.chips::-webkit-scrollbar { display: none; }
+.chips.only-mobile { display: flex; }
+.chip {
+  flex: none; height: 42px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--border-strong);
+  background: none; font-weight: 500; font-size: 15px;
+}
+.chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); font-weight: 600; }
+
+/* Encabezado del catálogo */
+.catalog__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 24px 0 18px; }
+.catalog__title { font-family: var(--display); font-weight: 500; font-size: 38px; line-height: 1; margin: 0; }
+.catalog__count { color: var(--text-2); font-size: 14px; }
+
+@media (min-width: 900px) {
+  .chips.only-mobile { display: none; }
+  .catalog__top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .catalog__top .search { width: 340px; }
+  .catalog__head { display: block; margin: 0; }
+  .catalog__title { font-size: 46px; }
+  .catalog__count { display: block; margin-top: 6px; }
+  .catalog__filters.only-desktop { display: flex; justify-content: space-between; align-items: center; margin: 26px 0 30px; }
+  .catalog__filters .chips { margin: 0; }
+}
+
+/* Ordenar por */
+.sort { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); }
+.sort select { background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 8px; height: 40px; padding: 0 12px; }
+
+/* Cuadrícula */
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+@media (min-width: 640px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 22px; } }
+
+.catalog__more { display: flex; justify-content: center; margin-top: 40px; }
+
+.empty { grid-column: 1 / -1; text-align: center; padding: 64px 16px; color: var(--text-2); }
+.empty h3 { font-family: var(--display); font-weight: 500; font-size: 28px; color: var(--text); margin: 0 0 6px; }
+
+/* Tarjeta de producto (también se usa en "También te puede gustar") */
+.card { position: relative; display: flex; flex-direction: column; }
+.card__link { display: block; flex: 1; text-decoration: none; }
+.card__photo {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); background: var(--surface);
+}
+.card__photo--empty { display: grid; place-items: center; color: var(--muted); font-size: 13px; }
+.card__badge {
+  position: absolute; top: 12px; left: 12px; z-index: 1; background: rgba(17, 13, 19, .85); color: var(--gold);
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; padding: 4px 10px; border-radius: 999px;
+}
+.card__category { display: none; }
+.card__name { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.15; margin: 12px 0 0; }
+.card__foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.card__order { display: none; }
+
+.price { color: var(--gold); font-weight: 700; font-size: 17px; }
+
+@media (min-width: 900px) {
+  .card__photo { aspect-ratio: 4 / 5.1; }
+  .card__category { display: block; margin-top: 16px; }
+  .card__name { margin-top: 4px; }
+  .card__foot { margin-top: 14px; }
+  .card__order { display: inline-flex; }
+}
