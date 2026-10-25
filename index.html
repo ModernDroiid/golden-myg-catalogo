@@ -193,9 +193,20 @@
     .d-slides img { flex: 0 0 100%; width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; scroll-snap-align: start; }
     .d-float { position: absolute; top: calc(16px + env(safe-area-inset-top)); left: 16px; right: 16px; display: flex; justify-content: space-between; pointer-events: none; }
     .d-float .round { pointer-events: auto; background: rgba(17, 13, 19, .8); border: 0; }
+    .d-slides { touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
+    .d-nav {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+      width: 40px; height: 40px; background: rgba(17, 13, 19, .75); border: 0; color: #fff;
+    }
+    .d-nav:disabled { opacity: 0; pointer-events: none; }
+    .d-prev { left: 12px; }
+    .d-next { right: 12px; }
+    @media (min-width: 900px) { .d-nav { width: 46px; height: 46px; } .d-prev { left: 16px; } .d-next { right: 16px; } }
     .d-dots { position: absolute; bottom: 14px; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; }
-    .d-dots span { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.5); }
-    .d-dots span.on { width: 18px; background: #fff; }
+    .d-dots button { width: 22px; height: 22px; padding: 0; border: 0; background: none; display: grid; place-items: center; }
+    .d-dots button::before { content: ''; width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.55); transition: width .2s; }
+    .d-dots button.on::before { width: 18px; background: #fff; }
+    .d-dots { gap: 0; }
     .detail-inner { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
     .d-body { padding: 26px 20px 0; }
     .d-related { padding: 0 20px; }
@@ -243,6 +254,7 @@
     <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></symbol>
     <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L8 7m4-4 4 4M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   </svg>
 
@@ -361,6 +373,8 @@
       <div class="d-main">
       <div class="d-gallery">
         <div class="d-slides" id="d-slides"></div>
+        <button class="round d-nav d-prev" id="d-prev" aria-label="Foto anterior" hidden><svg class="icon"><use href="#i-back"/></svg></button>
+        <button class="round d-nav d-next" id="d-next" aria-label="Foto siguiente" hidden><svg class="icon"><use href="#i-next"/></svg></button>
         <div class="d-dots" id="d-dots"></div>
         <div class="d-float">
           <button class="round" id="d-back" aria-label="Volver al catálogo"><svg class="icon"><use href="#i-back"/></svg></button>
@@ -539,8 +553,15 @@
       current = p;
       const photos = p.photos || [];
       $('d-slides').replaceChildren(...photos.map((src, i) => el('img', { src, alt: `${p.name}, foto ${i + 1}` })));
-      $('d-dots').replaceChildren(...(photos.length > 1 ? photos.map((_, i) => el('span', { className: i ? '' : 'on' })) : []));
+      $('d-dots').replaceChildren(...(photos.length > 1 ? photos.map((_, i) => {
+        const dot = el('button', { className: i ? '' : 'on' });
+        dot.setAttribute('aria-label', `Ver foto ${i + 1} de ${photos.length}`);
+        dot.onclick = () => goToPhoto(i);
+        return dot;
+      }) : []));
+      $('d-prev').hidden = $('d-next').hidden = photos.length < 2;
       $('d-slides').scrollLeft = 0;
+      updateGalleryNav();
       $('d-cat').textContent = p.category;
       $('d-name').textContent = p.name;
       $('d-price').textContent = p.price ? formatPrice(p.price) : '';
@@ -590,11 +611,30 @@
     });
     window.addEventListener('popstate', route);
     window.addEventListener('hashchange', route);
-    $('d-slides').addEventListener('scroll', () => {
+    // ---- Galería del detalle: deslizar, flechas, puntos y teclado ----
+    const photoIndex = () => Math.round($('d-slides').scrollLeft / $('d-slides').clientWidth);
+    function goToPhoto(i) {
       const s = $('d-slides');
-      const i = Math.round(s.scrollLeft / s.clientWidth);
+      const last = s.children.length - 1;
+      const target = Math.max(0, Math.min(last, i));
+      const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      s.scrollTo({ left: target * s.clientWidth, behavior: smooth ? 'smooth' : 'auto' });
+    }
+    function updateGalleryNav() {
+      const i = photoIndex();
+      const last = $('d-slides').children.length - 1;
       [...$('d-dots').children].forEach((d, k) => d.classList.toggle('on', k === i));
-    }, { passive: true });
+      $('d-prev').disabled = i <= 0;
+      $('d-next').disabled = i >= last;
+    }
+    $('d-prev').onclick = () => goToPhoto(photoIndex() - 1);
+    $('d-next').onclick = () => goToPhoto(photoIndex() + 1);
+    $('d-slides').addEventListener('scroll', updateGalleryNav, { passive: true });
+    document.addEventListener('keydown', (e) => {
+      if ($('detail').hidden || e.target.closest('input, select')) return;
+      if (e.key === 'ArrowLeft') goToPhoto(photoIndex() - 1);
+      if (e.key === 'ArrowRight') goToPhoto(photoIndex() + 1);
+    });
 
     // ---- Menú, búsqueda, orden ----
     const closeDrawer = () => { $('drawer').hidden = true; };
