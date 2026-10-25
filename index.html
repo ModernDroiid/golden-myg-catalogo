@@ -218,7 +218,8 @@
     .d-cta { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--border); }
     .d-cta .btn { width: 100%; min-height: 56px; font-size: 17px; }
     @media (min-width: 900px) {
-      .detail-inner { max-width: var(--wrap); margin: 0 auto; padding: 32px 24px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+      .detail-inner { max-width: var(--wrap); margin: 0 auto; padding: 32px 24px 56px; }
+      .d-main { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
       .d-slides { border-radius: var(--radius); }
       .d-gallery { position: sticky; top: 32px; }
       .d-float { top: 16px; }
@@ -226,7 +227,7 @@
       .d-title h2 { font-size: 46px; }
       .d-rel-row { grid-auto-columns: 30%; }
       .d-cta { position: static; padding: 0; border: 0; margin-top: 28px; background: none; }
-      .d-related { grid-column: 1 / -1; padding: 0; }
+      .d-related { padding: 0; margin-top: 24px; }
       .d-rel-row { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
@@ -357,6 +358,7 @@
 
   <section class="detail" id="detail" hidden aria-label="Detalle del producto">
     <div class="detail-inner">
+      <div class="d-main">
       <div class="d-gallery">
         <div class="d-slides" id="d-slides"></div>
         <div class="d-dots" id="d-dots"></div>
@@ -371,6 +373,7 @@
         <p class="d-desc" id="d-desc"></p>
         <dl class="d-specs" id="d-specs"></dl>
         <div class="d-cta"><a class="btn btn-gold wa-link" id="d-wa" target="_blank" rel="noopener"><svg class="icon"><use href="#i-chat"/></svg><span id="d-wa-text"></span></a></div>
+      </div>
       </div>
       <div class="d-related" id="d-related">
         <h3>También te puede gustar</h3>
